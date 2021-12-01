@@ -1,0 +1,39 @@
+File: semgrep-grammars/src/tree-sitter-solidity/LICENSE
+Git repo name: tree-sitter-solidity
+Latest commit in repo: d7fff976be2db24d488c3de813745fe5de2b5b59
+Last change in file:
+  commit 890735f6ba1246c33cb833af40746ee0c036e97c
+  Author: Joran Honig <joran.honig@gmail.com>
+  Date:   Sun Aug 30 22:28:00 2020 +0200
+  
+      add license
+---
+File: semgrep-grammars/src/tree-sitter-solidity/grammar.js
+Git repo name: tree-sitter-solidity
+Latest commit in repo: d7fff976be2db24d488c3de813745fe5de2b5b59
+Last change in file:
+  commit d7fff976be2db24d488c3de813745fe5de2b5b59
+  Author: Yoann Padioleau <yoann.padioleau@gmail.com>
+  Date:   Wed Dec 1 16:38:05 2021 +0100
+  
+      Name intermediate rules for semgrep (#18)
+      
+      * Name intermediate rules for semgrep
+      
+      * add missing $. characters
+      
+      Co-authored-by: Joran Honig <joran.honig@gmail.com>
+---
+File: semgrep-grammars/src/semgrep-solidity/grammar.js
+Git repo name: ocaml-tree-sitter-semgrep
+Latest commit in repo: 4becff2c85bf5087ac21166ccd3addd1752f34a6
+Last change in file:
+  commit 4becff2c85bf5087ac21166ccd3addd1752f34a6
+  Author: pad <pad@r2c.dev>
+  Date:   Wed Dec 1 17:11:34 2021 +0100
+  
+      Add support for solidity, a smart contract language
+      
+      test plan:
+      ./test-lang solidity
+---
