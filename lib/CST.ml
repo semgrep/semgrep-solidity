@@ -8,77 +8,6 @@
 open! Sexplib.Conv
 open Tree_sitter_run
 
-type yul_identifier = Token.t (* pattern [a-zA-Z$_]+ *)
-[@@deriving sexp_of]
-
-type uint = [
-    `Uint of Token.t (* "uint" *)
-  | `Uint8 of Token.t (* "uint8" *)
-  | `Uint16 of Token.t (* "uint16" *)
-  | `Uint24 of Token.t (* "uint24" *)
-  | `Uint32 of Token.t (* "uint32" *)
-  | `Uint40 of Token.t (* "uint40" *)
-  | `Uint48 of Token.t (* "uint48" *)
-  | `Uint56 of Token.t (* "uint56" *)
-  | `Uint64 of Token.t (* "uint64" *)
-  | `Uint72 of Token.t (* "uint72" *)
-  | `Uint80 of Token.t (* "uint80" *)
-  | `Uint88 of Token.t (* "uint88" *)
-  | `Uint96 of Token.t (* "uint96" *)
-  | `Uint104 of Token.t (* "uint104" *)
-  | `Uint112 of Token.t (* "uint112" *)
-  | `Uint120 of Token.t (* "uint120" *)
-  | `Uint128 of Token.t (* "uint128" *)
-  | `Uint136 of Token.t (* "uint136" *)
-  | `Uint144 of Token.t (* "uint144" *)
-  | `Uint152 of Token.t (* "uint152" *)
-  | `Uint160 of Token.t (* "uint160" *)
-  | `Uint168 of Token.t (* "uint168" *)
-  | `Uint176 of Token.t (* "uint176" *)
-  | `Uint184 of Token.t (* "uint184" *)
-  | `Uint192 of Token.t (* "uint192" *)
-  | `Uint200 of Token.t (* "uint200" *)
-  | `Uint208 of Token.t (* "uint208" *)
-  | `Uint216 of Token.t (* "uint216" *)
-  | `Uint224 of Token.t (* "uint224" *)
-  | `Uint232 of Token.t (* "uint232" *)
-  | `Uint240 of Token.t (* "uint240" *)
-  | `Uint248 of Token.t (* "uint248" *)
-  | `Uint256 of Token.t (* "uint256" *)
-]
-[@@deriving sexp_of]
-
-type yul_decimal_number = Token.t (* pattern 0|([1-9][0-9]*\
-  ) *)
-[@@deriving sexp_of]
-
-type identifier = Token.t (* pattern [a-zA-Z$_][a-zA-Z0-9$_]* *)
-[@@deriving sexp_of]
-
-type pat_923b015 = Token.t (* pattern 0[xX] *)
-[@@deriving sexp_of]
-
-type pat_0c477de = Token.t (* pattern "[^\"\\r\\n\\\\]" *)
-[@@deriving sexp_of]
-
-type pat_0468c4a = Token.t (* pattern \.\d+([eE](-)?\d+)? *)
-[@@deriving sexp_of]
-
-type number_unit = [
-    `Wei of Token.t (* "wei" *)
-  | `Szabo of Token.t (* "szabo" *)
-  | `Finney of Token.t (* "finney" *)
-  | `Gwei of Token.t (* "gwei" *)
-  | `Ether of Token.t (* "ether" *)
-  | `Seconds of Token.t (* "seconds" *)
-  | `Minutes of Token.t (* "minutes" *)
-  | `Hours of Token.t (* "hours" *)
-  | `Days of Token.t (* "days" *)
-  | `Weeks of Token.t (* "weeks" *)
-  | `Years of Token.t (* "years" *)
-]
-[@@deriving sexp_of]
-
 type state_mutability = [
     `Pure of Token.t (* "pure" *)
   | `View of Token.t (* "view" *)
@@ -86,57 +15,15 @@ type state_mutability = [
 ]
 [@@deriving sexp_of]
 
-type pat_6c32705 = Token.t (* pattern \d+(\.\d+)?([eE](-)?\d+)? *)
+type yul_hex_number = Token.t (* pattern 0x[0-9A-Fa-f]* *)
 [@@deriving sexp_of]
 
-type string_immediate_elt_inside_quote =
-  Token.t (* pattern "[^'\\\\\\n]+|\\\\\\r?\\n" *)
+type pat_6c32705 = Token.t (* pattern \d+(\.\d+)?([eE](-)?\d+)? *)
 [@@deriving sexp_of]
 
 type yul_boolean = [
     `True of Token.t (* "true" *)
   | `False of Token.t (* "false" *)
-]
-[@@deriving sexp_of]
-
-type solidity_version = Token.t (* pattern \d+(.\d+(.\d+)?)? *)
-[@@deriving sexp_of]
-
-type solidity_version_comparison_operator = [
-    `LTEQ of Token.t (* "<=" *)
-  | `LT of Token.t (* "<" *)
-  | `HAT of Token.t (* "^" *)
-  | `GT of Token.t (* ">" *)
-  | `GTEQ of Token.t (* ">=" *)
-  | `TILDE of Token.t (* "~" *)
-  | `EQ of Token.t (* "=" *)
-]
-[@@deriving sexp_of]
-
-type storage_location = [
-    `Memory of Token.t (* "memory" *)
-  | `Stor of Token.t (* "storage" *)
-  | `Call of Token.t (* "calldata" *)
-]
-[@@deriving sexp_of]
-
-type pat_f2662db = Token.t (* pattern fixed([0-9]+)x([0-9]+) *)
-[@@deriving sexp_of]
-
-type hex_digit = Token.t (* pattern ([a-fA-F0-9][a-fA-F0-9]) *)
-[@@deriving sexp_of]
-
-type pat_accdbe2 = Token.t (* pattern ufixed([0-9]+)x([0-9]+) *)
-[@@deriving sexp_of]
-
-type escape_sequence = Token.t
-[@@deriving sexp_of]
-
-type visibility = [
-    `Public of Token.t (* "public" *)
-  | `Inte of Token.t (* "internal" *)
-  | `Priv of Token.t (* "private" *)
-  | `Exte of Token.t (* "external" *)
 ]
 [@@deriving sexp_of]
 
@@ -216,6 +103,160 @@ type yul_evm_builtin = [
 ]
 [@@deriving sexp_of]
 
+type pat_0468c4a = Token.t (* pattern \.\d+([eE](-)?\d+)? *)
+[@@deriving sexp_of]
+
+type storage_location = [
+    `Memory of Token.t (* "memory" *)
+  | `Stor of Token.t (* "storage" *)
+  | `Call of Token.t (* "calldata" *)
+]
+[@@deriving sexp_of]
+
+type escape_sequence = Token.t
+[@@deriving sexp_of]
+
+type hex_digit = Token.t (* pattern ([a-fA-F0-9][a-fA-F0-9]) *)
+[@@deriving sexp_of]
+
+type pat_0c477de = Token.t (* pattern "[^\"\\r\\n\\\\]" *)
+[@@deriving sexp_of]
+
+type string_immediate_elt_inside_double_quote =
+  Token.t (* pattern "[^\"\\\\\\n]+|\\\\\\r?\\n" *)
+[@@deriving sexp_of]
+
+type solidity_version = Token.t (* pattern \d+(.\d+(.\d+)?)? *)
+[@@deriving sexp_of]
+
+type pat_accdbe2 = Token.t (* pattern ufixed([0-9]+)x([0-9]+) *)
+[@@deriving sexp_of]
+
+type int_ = [
+    `Int of Token.t (* "int" *)
+  | `Int8 of Token.t (* "int8" *)
+  | `Int16 of Token.t (* "int16" *)
+  | `Int24 of Token.t (* "int24" *)
+  | `Int32 of Token.t (* "int32" *)
+  | `Int40 of Token.t (* "int40" *)
+  | `Int48 of Token.t (* "int48" *)
+  | `Int56 of Token.t (* "int56" *)
+  | `Int64 of Token.t (* "int64" *)
+  | `Int72 of Token.t (* "int72" *)
+  | `Int80 of Token.t (* "int80" *)
+  | `Int88 of Token.t (* "int88" *)
+  | `Int96 of Token.t (* "int96" *)
+  | `Int104 of Token.t (* "int104" *)
+  | `Int112 of Token.t (* "int112" *)
+  | `Int120 of Token.t (* "int120" *)
+  | `Int128 of Token.t (* "int128" *)
+  | `Int136 of Token.t (* "int136" *)
+  | `Int144 of Token.t (* "int144" *)
+  | `Int152 of Token.t (* "int152" *)
+  | `Int160 of Token.t (* "int160" *)
+  | `Int168 of Token.t (* "int168" *)
+  | `Int176 of Token.t (* "int176" *)
+  | `Int184 of Token.t (* "int184" *)
+  | `Int192 of Token.t (* "int192" *)
+  | `Int200 of Token.t (* "int200" *)
+  | `Int208 of Token.t (* "int208" *)
+  | `Int216 of Token.t (* "int216" *)
+  | `Int224 of Token.t (* "int224" *)
+  | `Int232 of Token.t (* "int232" *)
+  | `Int240 of Token.t (* "int240" *)
+  | `Int248 of Token.t (* "int248" *)
+  | `Int256 of Token.t (* "int256" *)
+]
+[@@deriving sexp_of]
+
+type uint = [
+    `Uint of Token.t (* "uint" *)
+  | `Uint8 of Token.t (* "uint8" *)
+  | `Uint16 of Token.t (* "uint16" *)
+  | `Uint24 of Token.t (* "uint24" *)
+  | `Uint32 of Token.t (* "uint32" *)
+  | `Uint40 of Token.t (* "uint40" *)
+  | `Uint48 of Token.t (* "uint48" *)
+  | `Uint56 of Token.t (* "uint56" *)
+  | `Uint64 of Token.t (* "uint64" *)
+  | `Uint72 of Token.t (* "uint72" *)
+  | `Uint80 of Token.t (* "uint80" *)
+  | `Uint88 of Token.t (* "uint88" *)
+  | `Uint96 of Token.t (* "uint96" *)
+  | `Uint104 of Token.t (* "uint104" *)
+  | `Uint112 of Token.t (* "uint112" *)
+  | `Uint120 of Token.t (* "uint120" *)
+  | `Uint128 of Token.t (* "uint128" *)
+  | `Uint136 of Token.t (* "uint136" *)
+  | `Uint144 of Token.t (* "uint144" *)
+  | `Uint152 of Token.t (* "uint152" *)
+  | `Uint160 of Token.t (* "uint160" *)
+  | `Uint168 of Token.t (* "uint168" *)
+  | `Uint176 of Token.t (* "uint176" *)
+  | `Uint184 of Token.t (* "uint184" *)
+  | `Uint192 of Token.t (* "uint192" *)
+  | `Uint200 of Token.t (* "uint200" *)
+  | `Uint208 of Token.t (* "uint208" *)
+  | `Uint216 of Token.t (* "uint216" *)
+  | `Uint224 of Token.t (* "uint224" *)
+  | `Uint232 of Token.t (* "uint232" *)
+  | `Uint240 of Token.t (* "uint240" *)
+  | `Uint248 of Token.t (* "uint248" *)
+  | `Uint256 of Token.t (* "uint256" *)
+]
+[@@deriving sexp_of]
+
+type visibility = [
+    `Public of Token.t (* "public" *)
+  | `Inte of Token.t (* "internal" *)
+  | `Priv of Token.t (* "private" *)
+  | `Exte of Token.t (* "external" *)
+]
+[@@deriving sexp_of]
+
+type yul_identifier = Token.t (* pattern [a-zA-Z$_]+ *)
+[@@deriving sexp_of]
+
+type pat_a096c41 = Token.t (* pattern "[^'\\r\\n\\\\]" *)
+[@@deriving sexp_of]
+
+type solidity_version_comparison_operator = [
+    `LTEQ of Token.t (* "<=" *)
+  | `LT of Token.t (* "<" *)
+  | `HAT of Token.t (* "^" *)
+  | `GT of Token.t (* ">" *)
+  | `GTEQ of Token.t (* ">=" *)
+  | `TILDE of Token.t (* "~" *)
+  | `EQ of Token.t (* "=" *)
+]
+[@@deriving sexp_of]
+
+type number_unit = [
+    `Wei of Token.t (* "wei" *)
+  | `Szabo of Token.t (* "szabo" *)
+  | `Finney of Token.t (* "finney" *)
+  | `Gwei of Token.t (* "gwei" *)
+  | `Ether of Token.t (* "ether" *)
+  | `Seconds of Token.t (* "seconds" *)
+  | `Minutes of Token.t (* "minutes" *)
+  | `Hours of Token.t (* "hours" *)
+  | `Days of Token.t (* "days" *)
+  | `Weeks of Token.t (* "weeks" *)
+  | `Years of Token.t (* "years" *)
+]
+[@@deriving sexp_of]
+
+type identifier = Token.t (* pattern [a-zA-Z$_][a-zA-Z0-9$_]* *)
+[@@deriving sexp_of]
+
+type string_immediate_elt_inside_quote =
+  Token.t (* pattern "[^'\\\\\\n]+|\\\\\\r?\\n" *)
+[@@deriving sexp_of]
+
+type yul_decimal_number = Token.t (* pattern 0|([1-9][0-9]*\
+  ) *)
+[@@deriving sexp_of]
+
 type bytes_ = [
     `Byte of Token.t (* "byte" *)
   | `Bytes of Token.t (* "bytes" *)
@@ -260,51 +301,32 @@ type anon_choice_PLUSPLUS_e498e28 = [
 ]
 [@@deriving sexp_of]
 
-type int_ = [
-    `Int of Token.t (* "int" *)
-  | `Int8 of Token.t (* "int8" *)
-  | `Int16 of Token.t (* "int16" *)
-  | `Int24 of Token.t (* "int24" *)
-  | `Int32 of Token.t (* "int32" *)
-  | `Int40 of Token.t (* "int40" *)
-  | `Int48 of Token.t (* "int48" *)
-  | `Int56 of Token.t (* "int56" *)
-  | `Int64 of Token.t (* "int64" *)
-  | `Int72 of Token.t (* "int72" *)
-  | `Int80 of Token.t (* "int80" *)
-  | `Int88 of Token.t (* "int88" *)
-  | `Int96 of Token.t (* "int96" *)
-  | `Int104 of Token.t (* "int104" *)
-  | `Int112 of Token.t (* "int112" *)
-  | `Int120 of Token.t (* "int120" *)
-  | `Int128 of Token.t (* "int128" *)
-  | `Int136 of Token.t (* "int136" *)
-  | `Int144 of Token.t (* "int144" *)
-  | `Int152 of Token.t (* "int152" *)
-  | `Int160 of Token.t (* "int160" *)
-  | `Int168 of Token.t (* "int168" *)
-  | `Int176 of Token.t (* "int176" *)
-  | `Int184 of Token.t (* "int184" *)
-  | `Int192 of Token.t (* "int192" *)
-  | `Int200 of Token.t (* "int200" *)
-  | `Int208 of Token.t (* "int208" *)
-  | `Int216 of Token.t (* "int216" *)
-  | `Int224 of Token.t (* "int224" *)
-  | `Int232 of Token.t (* "int232" *)
-  | `Int240 of Token.t (* "int240" *)
-  | `Int248 of Token.t (* "int248" *)
-  | `Int256 of Token.t (* "int256" *)
+type pat_923b015 = Token.t (* pattern 0[xX] *)
+[@@deriving sexp_of]
+
+type pat_f2662db = Token.t (* pattern fixed([0-9]+)x([0-9]+) *)
+[@@deriving sexp_of]
+
+type decimal_number = [
+    `Pat_6c32705 of pat_6c32705 (*tok*)
+  | `Pat_0468c4a of pat_0468c4a (*tok*)
 ]
 [@@deriving sexp_of]
 
-type pat_a096c41 = Token.t (* pattern "[^'\\r\\n\\\\]" *)
+type anon_rep_opt___hex_digit_c87bea1 =
+  (Token.t (* "_" *) option * hex_digit (*tok*)) list (* zero or more *)
 [@@deriving sexp_of]
 
-type string_immediate_elt_inside_double_quote =
-  Token.t (* pattern "[^\"\\\\\\n]+|\\\\\\r?\\n" *)
+type double_quoted_unicode_char = [
+    `Pat_0c477de of pat_0c477de (*tok*)
+  | `Esc_seq of escape_sequence (*tok*)
+]
 [@@deriving sexp_of]
 
-type yul_hex_number = Token.t (* pattern 0x[0-9A-Fa-f]* *)
+type ufixed = [
+    `Ufixed of Token.t (* "ufixed" *)
+  | `Pat_accdbe2 of pat_accdbe2 (*tok*)
+]
 [@@deriving sexp_of]
 
 type yul_path = (
@@ -320,6 +342,30 @@ type anon_yul_id_rep_COMMA_yul_id_opt_COMMA_477546e = (
 )
 [@@deriving sexp_of]
 
+type boolean_literal = [
+    `True of Token.t (* "true" *)
+  | `False of Token.t (* "false" *)
+]
+[@@deriving sexp_of]
+
+type single_quoted_unicode_char = [
+    `Pat_a096c41 of pat_a096c41 (*tok*)
+  | `Esc_seq of escape_sequence (*tok*)
+]
+[@@deriving sexp_of]
+
+type pragma_version_constraint = (
+    solidity_version_comparison_operator option
+  * solidity_version (*tok*)
+)
+[@@deriving sexp_of]
+
+type import_declaration = (
+    identifier (*tok*)
+  * (Token.t (* "as" *) * identifier (*tok*)) option
+)
+[@@deriving sexp_of]
+
 type anon_id_rep_COMMA_id_opt_COMMA_e9ba3f8 = (
     identifier (*tok*)
   * (Token.t (* "," *) * identifier (*tok*)) list (* zero or more *)
@@ -331,52 +377,6 @@ type user_defined_type = (
     identifier (*tok*)
   * (Token.t (* "." *) * identifier (*tok*)) list (* zero or more *)
 )
-[@@deriving sexp_of]
-
-type import_declaration = (
-    identifier (*tok*)
-  * (Token.t (* "as" *) * identifier (*tok*)) option
-)
-[@@deriving sexp_of]
-
-type decimal_number = [
-    `Pat_6c32705 of pat_6c32705 (*tok*)
-  | `Pat_0468c4a of pat_0468c4a (*tok*)
-]
-[@@deriving sexp_of]
-
-type pragma_version_constraint = (
-    solidity_version_comparison_operator option
-  * solidity_version (*tok*)
-)
-[@@deriving sexp_of]
-
-type fixed = [
-    `Fixed of Token.t (* "fixed" *)
-  | `Pat_f2662db of pat_f2662db (*tok*)
-]
-[@@deriving sexp_of]
-
-type anon_rep_opt___hex_digit_c87bea1 =
-  (Token.t (* "_" *) option * hex_digit (*tok*)) list (* zero or more *)
-[@@deriving sexp_of]
-
-type ufixed = [
-    `Ufixed of Token.t (* "ufixed" *)
-  | `Pat_accdbe2 of pat_accdbe2 (*tok*)
-]
-[@@deriving sexp_of]
-
-type double_quoted_unicode_char = [
-    `Pat_0c477de of pat_0c477de (*tok*)
-  | `Esc_seq of escape_sequence (*tok*)
-]
-[@@deriving sexp_of]
-
-type single_quoted_unicode_char = [
-    `Pat_a096c41 of pat_a096c41 (*tok*)
-  | `Esc_seq of escape_sequence (*tok*)
-]
 [@@deriving sexp_of]
 
 type string_ = [
@@ -403,10 +403,54 @@ type string_ = [
 ]
 [@@deriving sexp_of]
 
-type boolean_literal = [
-    `True of Token.t (* "true" *)
-  | `False of Token.t (* "false" *)
+type fixed = [
+    `Fixed of Token.t (* "fixed" *)
+  | `Pat_f2662db of pat_f2662db (*tok*)
 ]
+[@@deriving sexp_of]
+
+type hex_string_literal =
+  (
+      Token.t (* "hex" *)
+    * [
+          `DQUOT_opt_hex_digit_rep_opt___hex_digit_DQUOT of (
+              Token.t (* "\"" *)
+            * (hex_digit (*tok*) * anon_rep_opt___hex_digit_c87bea1) option
+            * Token.t (* "\"" *)
+          )
+        | `SQUOT_opt_hex_digit_rep_opt___hex_digit_SQUOT of (
+              Token.t (* "'" *)
+            * (hex_digit (*tok*) * anon_rep_opt___hex_digit_c87bea1) option
+            * Token.t (* "'" *)
+          )
+      ]
+  )
+    list (* one or more *)
+[@@deriving sexp_of]
+
+type hex_number = (
+    pat_923b015 (*tok*)
+  * (hex_digit (*tok*) * anon_rep_opt___hex_digit_c87bea1) option
+)
+[@@deriving sexp_of]
+
+type unicode_string_literal =
+  (
+      Token.t (* "unicode" *)
+    * [
+          `DQUOT_rep_double_quoted_unic_char_DQUOT of (
+              Token.t (* "\"" *)
+            * double_quoted_unicode_char list (* zero or more *)
+            * Token.t (* "\"" *)
+          )
+        | `SQUOT_rep_single_quoted_unic_char_SQUOT of (
+              Token.t (* "'" *)
+            * single_quoted_unicode_char list (* zero or more *)
+            * Token.t (* "'" *)
+          )
+      ]
+  )
+    list (* one or more *)
 [@@deriving sexp_of]
 
 type enum_declaration = (
@@ -431,29 +475,7 @@ type override_specifier = (
 )
 [@@deriving sexp_of]
 
-type hex_number = (
-    pat_923b015 (*tok*)
-  * (hex_digit (*tok*) * anon_rep_opt___hex_digit_c87bea1) option
-)
-[@@deriving sexp_of]
-
-type hex_string_literal =
-  (
-      Token.t (* "hex" *)
-    * [
-          `DQUOT_opt_hex_digit_rep_opt___hex_digit_DQUOT of (
-              Token.t (* "\"" *)
-            * (hex_digit (*tok*) * anon_rep_opt___hex_digit_c87bea1) option
-            * Token.t (* "\"" *)
-          )
-        | `SQUOT_opt_hex_digit_rep_opt___hex_digit_SQUOT of (
-              Token.t (* "'" *)
-            * (hex_digit (*tok*) * anon_rep_opt___hex_digit_c87bea1) option
-            * Token.t (* "'" *)
-          )
-      ]
-  )
-    list (* one or more *)
+type yul_string_literal = string_
 [@@deriving sexp_of]
 
 type primitive_type = [
@@ -470,28 +492,6 @@ type primitive_type = [
   | `Fixed of fixed
   | `Ufixed of ufixed
 ]
-[@@deriving sexp_of]
-
-type unicode_string_literal =
-  (
-      Token.t (* "unicode" *)
-    * [
-          `DQUOT_rep_double_quoted_unic_char_DQUOT of (
-              Token.t (* "\"" *)
-            * double_quoted_unicode_char list (* zero or more *)
-            * Token.t (* "\"" *)
-          )
-        | `SQUOT_rep_single_quoted_unic_char_SQUOT of (
-              Token.t (* "'" *)
-            * single_quoted_unicode_char list (* zero or more *)
-            * Token.t (* "'" *)
-          )
-      ]
-  )
-    list (* one or more *)
-[@@deriving sexp_of]
-
-type yul_string_literal = string_
 [@@deriving sexp_of]
 
 type import_clause = [
@@ -512,12 +512,6 @@ type import_clause = [
 ]
 [@@deriving sexp_of]
 
-type mapping_key = [
-    `Prim_type of primitive_type
-  | `User_defi_type of user_defined_type
-]
-[@@deriving sexp_of]
-
 type yul_literal = [
     `Yul_deci_num of yul_decimal_number (*tok*)
   | `Yul_str_lit of yul_string_literal
@@ -526,16 +520,22 @@ type yul_literal = [
 ]
 [@@deriving sexp_of]
 
-type from_clause = (Token.t (* "from" *) * yul_string_literal)
-[@@deriving sexp_of]
-
 type source_import = (
     yul_string_literal
   * (Token.t (* "as" *) * identifier (*tok*)) option
 )
 [@@deriving sexp_of]
 
+type from_clause = (Token.t (* "from" *) * yul_string_literal)
+[@@deriving sexp_of]
+
 type string_literal = yul_string_literal list (* one or more *)
+[@@deriving sexp_of]
+
+type mapping_key = [
+    `Prim_type of primitive_type
+  | `User_defi_type of user_defined_type
+]
 [@@deriving sexp_of]
 
 type yul_expression = [
@@ -625,7 +625,12 @@ type directive = [
 ]
 [@@deriving sexp_of]
 
-type anon_choice_exp_e762ef6 = [
+type anon_choice_exp_97f816a = [
+    `Exp of expression
+  | `Id of identifier (*tok*)
+]
+
+and anon_choice_exp_e762ef6 = [
     `Exp of expression
   | `LCURL_opt_id_rep_COMMA_id_opt_COMMA_RCURL of (
         Token.t (* "{" *)
@@ -673,40 +678,27 @@ and call_arguments = (
   * Token.t (* ")" *)
 )
 
+and call_expression = (expression * call_arguments)
+
 and expression = [
-    `Bin_exp of binary_expression
-  | `Un_exp of unary_expression
-  | `Update_exp of update_expression
-  | `Call_exp of (expression * call_arguments)
-  | `Paya_conv_exp of (Token.t (* "payable" *) * call_arguments)
-  | `Meta_type_exp of (
-        Token.t (* "type" *) * Token.t (* "(" *) * type_name
-      * Token.t (* ")" *)
+    `Choice_bin_exp of [
+        `Bin_exp of binary_expression
+      | `Un_exp of unary_expression
+      | `Update_exp of update_expression
+      | `Call_exp of call_expression
+      | `Paya_conv_exp of payable_conversion_expression
+      | `Meta_type_exp of meta_type_expression
+      | `Prim_exp of primary_expression
+      | `Struct_exp of struct_expression
+      | `Tern_exp of ternary_expression
+      | `Type_cast_exp of type_cast_expression
+    ]
+  | `Ellips of Token.t (* "..." *)
+  | `Deep_ellips of (
+        Token.t (* "<..." *) * expression * Token.t (* "...>" *)
     )
-  | `Prim_exp of primary_expression
-  | `Struct_exp of (
-        expression
-      * Token.t (* "{" *)
-      * (
-            identifier (*tok*)
-          * Token.t (* ":" *)
-          * expression
-          * (
-                Token.t (* "," *) * identifier (*tok*) * Token.t (* ":" *)
-              * expression
-            )
-              list (* zero or more *)
-          * Token.t (* "," *) option
-        )
-          option
-      * Token.t (* "}" *)
-    )
-  | `Tern_exp of (
-        expression * Token.t (* "?" *) * expression * Token.t (* ":" *)
-      * expression
-    )
-  | `Type_cast_exp of (
-        primitive_type * Token.t (* "(" *) * expression * Token.t (* ")" *)
+  | `Member_ellips_exp of (
+        anon_choice_exp_97f816a * Token.t (* "." *) * Token.t (* "..." *)
     )
 ]
 
@@ -718,18 +710,23 @@ and lhs_expression = [
 ]
 
 and member_expression = (
-    [ `Exp of expression | `Id of identifier (*tok*) ]
-  * Token.t (* "." *)
-  * identifier (*tok*)
+    anon_choice_exp_97f816a * Token.t (* "." *) * identifier (*tok*)
+)
+
+and meta_type_expression = (
+    Token.t (* "type" *) * Token.t (* "(" *) * type_name * Token.t (* ")" *)
 )
 
 and nameless_parameter = (type_name * storage_location option)
 
-and parameter = (
-    type_name
-  * storage_location option
-  * identifier (*tok*) option
-)
+and parameter = [
+    `Type_name_opt_stor_loca_opt_id of (
+        type_name
+      * storage_location option
+      * identifier (*tok*) option
+    )
+  | `Ellips of Token.t (* "..." *)
+]
 
 and parameter_list = (
     Token.t (* "(" *)
@@ -744,6 +741,10 @@ and parameter_list = (
 
 and parenthesized_expression = (
     Token.t (* "(" *) * expression * Token.t (* ")" *)
+)
+
+and payable_conversion_expression = (
+    Token.t (* "payable" *) * call_arguments
 )
 
 and primary_expression = [
@@ -805,11 +806,38 @@ and return_parameters = (
   * Token.t (* ")" *)
 )
 
+and struct_expression = (
+    expression
+  * Token.t (* "{" *)
+  * (
+        identifier (*tok*)
+      * Token.t (* ":" *)
+      * expression
+      * (
+            Token.t (* "," *) * identifier (*tok*) * Token.t (* ":" *)
+          * expression
+        )
+          list (* zero or more *)
+      * Token.t (* "," *) option
+    )
+      option
+  * Token.t (* "}" *)
+)
+
+and ternary_expression = (
+    expression * Token.t (* "?" *) * expression * Token.t (* ":" *)
+  * expression
+)
+
 and tuple_expression = (
     Token.t (* "(" *)
   * expression option
   * (Token.t (* "," *) * expression option) list (* zero or more *)
   * Token.t (* ")" *)
+)
+
+and type_cast_expression = (
+    primitive_type * Token.t (* "(" *) * expression * Token.t (* ")" *)
 )
 
 and type_name = [
@@ -896,6 +924,16 @@ and yul_statement = [
 ]
 [@@deriving sexp_of]
 
+type expression_statement = [
+    `Exp_semi of (expression * Token.t (* ";" *))
+  | `Ellips_SEMI of (Token.t (* "..." *) * Token.t (* ";" *))
+  | `Ellips of Token.t (* "..." *)
+]
+[@@deriving sexp_of]
+
+type return_type_definition = (Token.t (* "returns" *) * parameter_list)
+[@@deriving sexp_of]
+
 type state_variable_declaration = (
     type_name
   * [
@@ -914,32 +952,6 @@ type state_variable_declaration = (
 type modifier_invocation = (identifier (*tok*) * call_arguments option)
 [@@deriving sexp_of]
 
-type expression_statement = (expression * Token.t (* ";" *))
-[@@deriving sexp_of]
-
-type struct_member = (type_name * identifier (*tok*) * Token.t (* ";" *))
-[@@deriving sexp_of]
-
-type inheritance_specifier = (user_defined_type * call_arguments option)
-[@@deriving sexp_of]
-
-type event_paramater = (
-    type_name
-  * Token.t (* "indexed" *) option
-  * identifier (*tok*) option
-)
-[@@deriving sexp_of]
-
-type return_type_definition = (Token.t (* "returns" *) * parameter_list)
-[@@deriving sexp_of]
-
-type variable_declaration = (
-    type_name
-  * storage_location option
-  * identifier (*tok*)
-)
-[@@deriving sexp_of]
-
 type using_directive = (
     Token.t (* "using" *)
   * user_defined_type
@@ -949,32 +961,28 @@ type using_directive = (
 )
 [@@deriving sexp_of]
 
-type struct_declaration = (
-    Token.t (* "struct" *)
+type variable_declaration = (
+    type_name
+  * storage_location option
   * identifier (*tok*)
-  * Token.t (* "{" *)
-  * struct_member list (* one or more *)
-  * Token.t (* "}" *)
 )
 [@@deriving sexp_of]
 
-type class_heritage = (
-    Token.t (* "is" *)
-  * inheritance_specifier
-  * (Token.t (* "," *) * inheritance_specifier) list (* zero or more *)
-  * Token.t (* "," *) option
-)
+type inheritance_specifier = (user_defined_type * call_arguments option)
 [@@deriving sexp_of]
 
-type event_parameter_list = (
-    Token.t (* "(" *)
-  * (
-        event_paramater
-      * (Token.t (* "," *) * event_paramater) list (* zero or more *)
-      * Token.t (* "," *) option
+type struct_member = [
+    `Type_name_id_semi of (
+        type_name * identifier (*tok*) * Token.t (* ";" *)
     )
-      option
-  * Token.t (* ")" *)
+  | `Ellips of Token.t (* "..." *)
+]
+[@@deriving sexp_of]
+
+type event_paramater = (
+    type_name
+  * Token.t (* "indexed" *) option
+  * identifier (*tok*) option
 )
 [@@deriving sexp_of]
 
@@ -1001,12 +1009,32 @@ type variable_declaration_tuple = [
 ]
 [@@deriving sexp_of]
 
-type event_definition = (
-    Token.t (* "event" *)
+type class_heritage = (
+    Token.t (* "is" *)
+  * inheritance_specifier
+  * (Token.t (* "," *) * inheritance_specifier) list (* zero or more *)
+  * Token.t (* "," *) option
+)
+[@@deriving sexp_of]
+
+type struct_declaration = (
+    Token.t (* "struct" *)
   * identifier (*tok*)
-  * event_parameter_list
-  * Token.t (* "anonymous" *) option
-  * Token.t (* ";" *)
+  * Token.t (* "{" *)
+  * struct_member list (* one or more *)
+  * Token.t (* "}" *)
+)
+[@@deriving sexp_of]
+
+type event_parameter_list = (
+    Token.t (* "(" *)
+  * (
+        event_paramater
+      * (Token.t (* "," *) * event_paramater) list (* zero or more *)
+      * Token.t (* "," *) option
+    )
+      option
+  * Token.t (* ")" *)
 )
 [@@deriving sexp_of]
 
@@ -1020,6 +1048,15 @@ type variable_declaration_statement = (
             variable_declaration_tuple * Token.t (* "=" *) * expression
         )
     ]
+  * Token.t (* ";" *)
+)
+[@@deriving sexp_of]
+
+type event_definition = (
+    Token.t (* "event" *)
+  * identifier (*tok*)
+  * event_parameter_list
+  * Token.t (* "anonymous" *) option
   * Token.t (* ";" *)
 )
 [@@deriving sexp_of]
@@ -1151,6 +1188,16 @@ type fallback_receive_definition = (
 )
 [@@deriving sexp_of]
 
+type modifier_definition = (
+    Token.t (* "modifier" *)
+  * identifier (*tok*)
+  * parameter_list option
+  * [ `Virt of Token.t (* "virtual" *) | `Over_spec of override_specifier ]
+      list (* zero or more *)
+  * anon_choice_semi_f2fe6be
+)
+[@@deriving sexp_of]
+
 type function_definition = (
     Token.t (* "function" *)
   * identifier (*tok*)
@@ -1164,16 +1211,6 @@ type function_definition = (
     ]
       list (* zero or more *)
   * return_type_definition option
-  * anon_choice_semi_f2fe6be
-)
-[@@deriving sexp_of]
-
-type modifier_definition = (
-    Token.t (* "modifier" *)
-  * identifier (*tok*)
-  * parameter_list option
-  * [ `Virt of Token.t (* "virtual" *) | `Over_spec of override_specifier ]
-      list (* zero or more *)
   * anon_choice_semi_f2fe6be
 )
 [@@deriving sexp_of]
@@ -1226,13 +1263,20 @@ type declaration = [
 type source_unit = [ `Dire of directive | `Decl of declaration ]
 [@@deriving sexp_of]
 
-type source_file = source_unit list (* zero or more *)
-[@@deriving sexp_of]
-
-type false_ (* inlined *) = Token.t (* "false" *)
+type source_file = [
+    `Rep_source_unit of source_unit list (* zero or more *)
+  | `Rep1_stmt of statement list (* one or more *)
+  | `Exp of expression
+]
 [@@deriving sexp_of]
 
 type yul_continue (* inlined *) = Token.t (* "continue" *)
+[@@deriving sexp_of]
+
+type number (* inlined *) = Token.t (* pattern \d+ *)
+[@@deriving sexp_of]
+
+type yul_leave (* inlined *) = Token.t (* "leave" *)
 [@@deriving sexp_of]
 
 type yul_break (* inlined *) = Token.t (* "break" *)
@@ -1244,34 +1288,28 @@ type constant (* inlined *) = Token.t (* "constant" *)
 type any_source_type (* inlined *) = Token.t (* "*" *)
 [@@deriving sexp_of]
 
-type semicolon (* inlined *) = Token.t (* ";" *)
-[@@deriving sexp_of]
-
-type number (* inlined *) = Token.t (* pattern \d+ *)
-[@@deriving sexp_of]
-
-type virtual_ (* inlined *) = Token.t (* "virtual" *)
-[@@deriving sexp_of]
-
-type yul_leave (* inlined *) = Token.t (* "leave" *)
+type true_ (* inlined *) = Token.t (* "true" *)
 [@@deriving sexp_of]
 
 type override (* inlined *) = Token.t (* "override" *)
+[@@deriving sexp_of]
+
+type ellipsis (* inlined *) = Token.t (* "..." *)
+[@@deriving sexp_of]
+
+type semicolon (* inlined *) = Token.t (* ";" *)
+[@@deriving sexp_of]
+
+type false_ (* inlined *) = Token.t (* "false" *)
+[@@deriving sexp_of]
+
+type virtual_ (* inlined *) = Token.t (* "virtual" *)
 [@@deriving sexp_of]
 
 type immutable (* inlined *) = Token.t (* "immutable" *)
 [@@deriving sexp_of]
 
 type comment (* inlined *) = Token.t
-[@@deriving sexp_of]
-
-type true_ (* inlined *) = Token.t (* "true" *)
-[@@deriving sexp_of]
-
-type single_import (* inlined *) = (
-    Token.t (* "*" *)
-  * (Token.t (* "as" *) * identifier (*tok*)) option
-)
 [@@deriving sexp_of]
 
 type continue_statement (* inlined *) = (
@@ -1284,6 +1322,20 @@ type break_statement (* inlined *) = (
 )
 [@@deriving sexp_of]
 
+type single_import (* inlined *) = (
+    Token.t (* "*" *)
+  * (Token.t (* "as" *) * identifier (*tok*)) option
+)
+[@@deriving sexp_of]
+
+type pragma_directive (* inlined *) = (
+    Token.t (* "pragma" *)
+  * Token.t (* "solidity" *)
+  * pragma_version_constraint list (* zero or more *)
+  * Token.t (* ";" *)
+)
+[@@deriving sexp_of]
+
 type multiple_import (* inlined *) = (
     Token.t (* "{" *)
   * (
@@ -1293,14 +1345,6 @@ type multiple_import (* inlined *) = (
     )
       option
   * Token.t (* "}" *)
-)
-[@@deriving sexp_of]
-
-type pragma_directive (* inlined *) = (
-    Token.t (* "pragma" *)
-  * Token.t (* "solidity" *)
-  * pragma_version_constraint list (* zero or more *)
-  * Token.t (* ";" *)
 )
 [@@deriving sexp_of]
 
@@ -1354,7 +1398,9 @@ type augmented_assignment_expression (* inlined *) = (
 )
 [@@deriving sexp_of]
 
-type call_expression (* inlined *) = (expression * call_arguments)
+type deep_ellipsis (* inlined *) = (
+    Token.t (* "<..." *) * expression * Token.t (* "...>" *)
+)
 [@@deriving sexp_of]
 
 type function_type (* inlined *) = (
@@ -1382,8 +1428,8 @@ type mapping (* inlined *) = (
 )
 [@@deriving sexp_of]
 
-type meta_type_expression (* inlined *) = (
-    Token.t (* "type" *) * Token.t (* "(" *) * type_name * Token.t (* ")" *)
+type member_ellipsis_expression (* inlined *) = (
+    anon_choice_exp_97f816a * Token.t (* "." *) * Token.t (* "..." *)
 )
 [@@deriving sexp_of]
 
@@ -1394,44 +1440,9 @@ type new_expression (* inlined *) = (
 )
 [@@deriving sexp_of]
 
-type payable_conversion_expression (* inlined *) = (
-    Token.t (* "payable" *) * call_arguments
-)
-[@@deriving sexp_of]
-
 type slice_access (* inlined *) = (
     expression * Token.t (* "[" *) * expression * Token.t (* ":" *)
   * expression * Token.t (* "]" *)
-)
-[@@deriving sexp_of]
-
-type struct_expression (* inlined *) = (
-    expression
-  * Token.t (* "{" *)
-  * (
-        identifier (*tok*)
-      * Token.t (* ":" *)
-      * expression
-      * (
-            Token.t (* "," *) * identifier (*tok*) * Token.t (* ":" *)
-          * expression
-        )
-          list (* zero or more *)
-      * Token.t (* "," *) option
-    )
-      option
-  * Token.t (* "}" *)
-)
-[@@deriving sexp_of]
-
-type ternary_expression (* inlined *) = (
-    expression * Token.t (* "?" *) * expression * Token.t (* ":" *)
-  * expression
-)
-[@@deriving sexp_of]
-
-type type_cast_expression (* inlined *) = (
-    primitive_type * Token.t (* "(" *) * expression * Token.t (* ")" *)
 )
 [@@deriving sexp_of]
 
@@ -1476,6 +1487,11 @@ type yul_switch_statement (* inlined *) = (
 )
 [@@deriving sexp_of]
 
+type emit_statement (* inlined *) = (
+    Token.t (* "emit" *) * expression * call_arguments * Token.t (* ";" *)
+)
+[@@deriving sexp_of]
+
 type constant_variable_declaration (* inlined *) = (
     type_name * Token.t (* "constant" *) * identifier (*tok*)
   * Token.t (* "=" *) * expression * Token.t (* ";" *)
@@ -1486,11 +1502,6 @@ type return_statement (* inlined *) = (
     Token.t (* "return" *)
   * expression option
   * Token.t (* ";" *)
-)
-[@@deriving sexp_of]
-
-type emit_statement (* inlined *) = (
-    Token.t (* "emit" *) * expression * call_arguments * Token.t (* ";" *)
 )
 [@@deriving sexp_of]
 
