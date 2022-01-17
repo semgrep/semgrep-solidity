@@ -1073,19 +1073,8 @@ and catch_clause = (
   * block_statement
 )
 
-and statement = [
-    `Blk_stmt of block_statement
-  | `Exp_stmt of expression_statement
-  | `Var_decl_stmt of variable_declaration_statement
-  | `If_stmt of (
-        Token.t (* "if" *)
-      * Token.t (* "(" *)
-      * expression
-      * Token.t (* ")" *)
-      * statement
-      * (Token.t (* "else" *) * statement) option
-    )
-  | `For_stmt of (
+and for_statement = [
+    `For_LPAR_choice_var_decl_stmt_choice_exp_stmt_opt_exp_RPAR_stmt of (
         Token.t (* "for" *)
       * Token.t (* "(" *)
       * [
@@ -1098,6 +1087,25 @@ and statement = [
       * Token.t (* ")" *)
       * statement
     )
+  | `For_LPAR_ellips_RPAR_stmt of (
+        Token.t (* "for" *) * Token.t (* "(" *) * Token.t (* "..." *)
+      * Token.t (* ")" *) * statement
+    )
+]
+
+and statement = [
+    `Blk_stmt of block_statement
+  | `Exp_stmt of expression_statement
+  | `Var_decl_stmt of variable_declaration_statement
+  | `If_stmt of (
+        Token.t (* "if" *)
+      * Token.t (* "(" *)
+      * expression
+      * Token.t (* ")" *)
+      * statement
+      * (Token.t (* "else" *) * statement) option
+    )
+  | `For_stmt of for_statement
   | `While_stmt of (
         Token.t (* "while" *) * Token.t (* "(" *) * expression
       * Token.t (* ")" *) * statement
@@ -1517,21 +1525,6 @@ type assembly_statement (* inlined *) = (
 type do_while_statement (* inlined *) = (
     Token.t (* "do" *) * statement * Token.t (* "while" *)
   * Token.t (* "(" *) * expression * Token.t (* ")" *)
-)
-[@@deriving sexp_of]
-
-type for_statement (* inlined *) = (
-    Token.t (* "for" *)
-  * Token.t (* "(" *)
-  * [
-        `Var_decl_stmt of variable_declaration_statement
-      | `Exp_stmt of expression_statement
-      | `Semi of Token.t (* ";" *)
-    ]
-  * [ `Exp_stmt of expression_statement | `Semi of Token.t (* ";" *) ]
-  * expression option
-  * Token.t (* ")" *)
-  * statement
 )
 [@@deriving sexp_of]
 

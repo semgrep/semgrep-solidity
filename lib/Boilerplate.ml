@@ -1756,28 +1756,9 @@ and map_catch_clause (env : env) ((v1, v2, v3) : CST.catch_clause) =
   let v3 = map_block_statement env v3 in
   todo env (v1, v2, v3)
 
-and map_statement (env : env) (x : CST.statement) =
+and map_for_statement (env : env) (x : CST.for_statement) =
   (match x with
-  | `Blk_stmt x -> map_block_statement env x
-  | `Exp_stmt x -> map_expression_statement env x
-  | `Var_decl_stmt x ->
-      map_variable_declaration_statement env x
-  | `If_stmt (v1, v2, v3, v4, v5, v6) ->
-      let v1 = (* "if" *) token env v1 in
-      let v2 = (* "(" *) token env v2 in
-      let v3 = map_expression env v3 in
-      let v4 = (* ")" *) token env v4 in
-      let v5 = map_statement env v5 in
-      let v6 =
-        (match v6 with
-        | Some (v1, v2) ->
-            let v1 = (* "else" *) token env v1 in
-            let v2 = map_statement env v2 in
-            todo env (v1, v2)
-        | None -> todo env ())
-      in
-      todo env (v1, v2, v3, v4, v5, v6)
-  | `For_stmt (v1, v2, v3, v4, v5, v6, v7) ->
+  | `For_LPAR_choice_var_decl_stmt_choice_exp_stmt_opt_exp_RPAR_stmt (v1, v2, v3, v4, v5, v6, v7) ->
       let v1 = (* "for" *) token env v1 in
       let v2 = (* "(" *) token env v2 in
       let v3 =
@@ -1802,6 +1783,37 @@ and map_statement (env : env) (x : CST.statement) =
       let v6 = (* ")" *) token env v6 in
       let v7 = map_statement env v7 in
       todo env (v1, v2, v3, v4, v5, v6, v7)
+  | `For_LPAR_ellips_RPAR_stmt (v1, v2, v3, v4, v5) ->
+      let v1 = (* "for" *) token env v1 in
+      let v2 = (* "(" *) token env v2 in
+      let v3 = (* "..." *) token env v3 in
+      let v4 = (* ")" *) token env v4 in
+      let v5 = map_statement env v5 in
+      todo env (v1, v2, v3, v4, v5)
+  )
+
+and map_statement (env : env) (x : CST.statement) =
+  (match x with
+  | `Blk_stmt x -> map_block_statement env x
+  | `Exp_stmt x -> map_expression_statement env x
+  | `Var_decl_stmt x ->
+      map_variable_declaration_statement env x
+  | `If_stmt (v1, v2, v3, v4, v5, v6) ->
+      let v1 = (* "if" *) token env v1 in
+      let v2 = (* "(" *) token env v2 in
+      let v3 = map_expression env v3 in
+      let v4 = (* ")" *) token env v4 in
+      let v5 = map_statement env v5 in
+      let v6 =
+        (match v6 with
+        | Some (v1, v2) ->
+            let v1 = (* "else" *) token env v1 in
+            let v2 = map_statement env v2 in
+            todo env (v1, v2)
+        | None -> todo env ())
+      in
+      todo env (v1, v2, v3, v4, v5, v6)
+  | `For_stmt x -> map_for_statement env x
   | `While_stmt (v1, v2, v3, v4, v5) ->
       let v1 = (* "while" *) token env v1 in
       let v2 = (* "(" *) token env v2 in

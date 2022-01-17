@@ -26,14 +26,15 @@ Last change in file:
 ---
 File: semgrep-grammars/src/semgrep-solidity/grammar.js
 Git repo name: ocaml-tree-sitter-semgrep
-Latest commit in repo: 5e9eca4581f4f62f8744ccb965b1b873cbd09bc6
+Latest commit in repo: 421cfd78ec935667333b857c796e92ac0f9be83d
 Last change in file:
-  commit 5e9eca4581f4f62f8744ccb965b1b873cbd09bc6
+  commit 421cfd78ec935667333b857c796e92ac0f9be83d
   Author: pad <pad@r2c.dev>
-  Date:   Tue Dec 7 15:45:13 2021 +0100
+  Date:   Mon Jan 17 11:30:42 2022 +0100
   
-      [Solidity] extend solidity grammar with Semgrep extensions
+      Support for 'for(...)' for Solidity
       
       test plan:
-      see related PR in semgrep with its alpha tests
+      test file included
+      ./test-lang solidity
 ---

@@ -1836,24 +1836,33 @@ let children_regexps : (string * Run.exp option) list = [
   );
   "for_statement",
   Some (
-    Seq [
-      Token (Literal "for");
-      Token (Literal "(");
-      Alt [|
-        Token (Name "variable_declaration_statement");
-        Token (Name "expression_statement");
-        Token (Name "semicolon");
-      |];
-      Alt [|
-        Token (Name "expression_statement");
-        Token (Name "semicolon");
-      |];
-      Opt (
-        Token (Name "expression");
-      );
-      Token (Literal ")");
-      Token (Name "statement");
-    ];
+    Alt [|
+      Seq [
+        Token (Literal "for");
+        Token (Literal "(");
+        Alt [|
+          Token (Name "variable_declaration_statement");
+          Token (Name "expression_statement");
+          Token (Name "semicolon");
+        |];
+        Alt [|
+          Token (Name "expression_statement");
+          Token (Name "semicolon");
+        |];
+        Opt (
+          Token (Name "expression");
+        );
+        Token (Literal ")");
+        Token (Name "statement");
+      ];
+      Seq [
+        Token (Literal "for");
+        Token (Literal "(");
+        Token (Name "ellipsis");
+        Token (Literal ")");
+        Token (Name "statement");
+      ];
+    |];
   );
   "if_statement",
   Some (
@@ -6363,44 +6372,64 @@ and trans_for_statement ((kind, body) : mt) : CST.for_statement =
   match body with
   | Children v ->
       (match v with
-      | Seq [v0; v1; v2; v3; v4; v5; v6] ->
-          (
-            Run.trans_token (Run.matcher_token v0),
-            Run.trans_token (Run.matcher_token v1),
-            (match v2 with
-            | Alt (0, v) ->
-                `Var_decl_stmt (
-                  trans_variable_declaration_statement (Run.matcher_token v)
-                )
-            | Alt (1, v) ->
-                `Exp_stmt (
-                  trans_expression_statement (Run.matcher_token v)
-                )
-            | Alt (2, v) ->
-                `Semi (
-                  trans_semicolon (Run.matcher_token v)
+      | Alt (0, v) ->
+          `For_LPAR_choice_var_decl_stmt_choice_exp_stmt_opt_exp_RPAR_stmt (
+            (match v with
+            | Seq [v0; v1; v2; v3; v4; v5; v6] ->
+                (
+                  Run.trans_token (Run.matcher_token v0),
+                  Run.trans_token (Run.matcher_token v1),
+                  (match v2 with
+                  | Alt (0, v) ->
+                      `Var_decl_stmt (
+                        trans_variable_declaration_statement (Run.matcher_token v)
+                      )
+                  | Alt (1, v) ->
+                      `Exp_stmt (
+                        trans_expression_statement (Run.matcher_token v)
+                      )
+                  | Alt (2, v) ->
+                      `Semi (
+                        trans_semicolon (Run.matcher_token v)
+                      )
+                  | _ -> assert false
+                  )
+                  ,
+                  (match v3 with
+                  | Alt (0, v) ->
+                      `Exp_stmt (
+                        trans_expression_statement (Run.matcher_token v)
+                      )
+                  | Alt (1, v) ->
+                      `Semi (
+                        trans_semicolon (Run.matcher_token v)
+                      )
+                  | _ -> assert false
+                  )
+                  ,
+                  Run.opt
+                    (fun v -> trans_expression (Run.matcher_token v))
+                    v4
+                  ,
+                  Run.trans_token (Run.matcher_token v5),
+                  trans_statement (Run.matcher_token v6)
                 )
             | _ -> assert false
             )
-            ,
-            (match v3 with
-            | Alt (0, v) ->
-                `Exp_stmt (
-                  trans_expression_statement (Run.matcher_token v)
-                )
-            | Alt (1, v) ->
-                `Semi (
-                  trans_semicolon (Run.matcher_token v)
+          )
+      | Alt (1, v) ->
+          `For_LPAR_ellips_RPAR_stmt (
+            (match v with
+            | Seq [v0; v1; v2; v3; v4] ->
+                (
+                  Run.trans_token (Run.matcher_token v0),
+                  Run.trans_token (Run.matcher_token v1),
+                  trans_ellipsis (Run.matcher_token v2),
+                  Run.trans_token (Run.matcher_token v3),
+                  trans_statement (Run.matcher_token v4)
                 )
             | _ -> assert false
             )
-            ,
-            Run.opt
-              (fun v -> trans_expression (Run.matcher_token v))
-              v4
-            ,
-            Run.trans_token (Run.matcher_token v5),
-            trans_statement (Run.matcher_token v6)
           )
       | _ -> assert false
       )
