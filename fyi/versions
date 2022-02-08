@@ -1,6 +1,6 @@
 File: semgrep-grammars/src/tree-sitter-solidity/LICENSE
 Git repo name: tree-sitter-solidity
-Latest commit in repo: d7fff976be2db24d488c3de813745fe5de2b5b59
+Latest commit in repo: 73ee71a17401c5944c1f7c88c33e029984c0f3f1
 Last change in file:
   commit 890735f6ba1246c33cb833af40746ee0c036e97c
   Author: Joran Honig <joran.honig@gmail.com>
@@ -10,31 +10,30 @@ Last change in file:
 ---
 File: semgrep-grammars/src/tree-sitter-solidity/grammar.js
 Git repo name: tree-sitter-solidity
-Latest commit in repo: d7fff976be2db24d488c3de813745fe5de2b5b59
+Latest commit in repo: 73ee71a17401c5944c1f7c88c33e029984c0f3f1
 Last change in file:
-  commit d7fff976be2db24d488c3de813745fe5de2b5b59
-  Author: Yoann Padioleau <yoann.padioleau@gmail.com>
-  Date:   Wed Dec 1 16:38:05 2021 +0100
+  commit 73ee71a17401c5944c1f7c88c33e029984c0f3f1
+  Author: Yoann Padioleau <pad@r2c.dev>
+  Date:   Tue Feb 8 16:25:20 2022 +0100
   
-      Name intermediate rules for semgrep (#18)
+      name intermediate contract_member rule (this will be useful for semgrep extensions) (#22)
       
-      * Name intermediate rules for semgrep
+      * name intermediate contract_member rule (this will be useful for semgrep extensions)
       
-      * add missing $. characters
-      
-      Co-authored-by: Joran Honig <joran.honig@gmail.com>
+      * silence contract_member with a _ prefix
 ---
 File: semgrep-grammars/src/semgrep-solidity/grammar.js
 Git repo name: ocaml-tree-sitter-semgrep
-Latest commit in repo: 421cfd78ec935667333b857c796e92ac0f9be83d
+Latest commit in repo: 5c3e4b61ebdb990c0d2ab95d2b3d5b7fca277a32
 Last change in file:
-  commit 421cfd78ec935667333b857c796e92ac0f9be83d
+  commit 5c3e4b61ebdb990c0d2ab95d2b3d5b7fca277a32
   Author: pad <pad@r2c.dev>
-  Date:   Mon Jan 17 11:30:42 2022 +0100
+  Date:   Tue Feb 8 16:46:07 2022 +0100
   
-      Support for 'for(...)' for Solidity
+      Update to latest tree-sitter-solidity and add ... in contract
+      
+      This will help https://github.com/returntocorp/semgrep/issues/4587
       
       test plan:
-      test file included
       ./test-lang solidity
 ---
