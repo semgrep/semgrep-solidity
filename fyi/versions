@@ -1,6 +1,6 @@
 File: semgrep-grammars/src/tree-sitter-solidity/LICENSE
 Git repo name: tree-sitter-solidity
-Latest commit in repo: 73ee71a17401c5944c1f7c88c33e029984c0f3f1
+Latest commit in repo: 4e79c49eb4cb68f417411f97a0b9cbd4d5862752
 Last change in file:
   commit 890735f6ba1246c33cb833af40746ee0c036e97c
   Author: Joran Honig <joran.honig@gmail.com>
@@ -10,29 +10,25 @@ Last change in file:
 ---
 File: semgrep-grammars/src/tree-sitter-solidity/grammar.js
 Git repo name: tree-sitter-solidity
-Latest commit in repo: 73ee71a17401c5944c1f7c88c33e029984c0f3f1
+Latest commit in repo: 4e79c49eb4cb68f417411f97a0b9cbd4d5862752
 Last change in file:
-  commit 73ee71a17401c5944c1f7c88c33e029984c0f3f1
-  Author: Yoann Padioleau <pad@r2c.dev>
-  Date:   Tue Feb 8 16:25:20 2022 +0100
+  commit d1933beac0af59a84ea9d7e8fe6ad694d30d4c50
+  Author: Joran Honig <joran.honig@gmail.com>
+  Date:   Wed May 11 16:23:07 2022 +0200
   
-      name intermediate contract_member rule (this will be useful for semgrep extensions) (#22)
-      
-      * name intermediate contract_member rule (this will be useful for semgrep extensions)
-      
-      * silence contract_member with a _ prefix
+      fix solidity version regex
 ---
 File: semgrep-grammars/src/semgrep-solidity/grammar.js
 Git repo name: ocaml-tree-sitter-semgrep
-Latest commit in repo: 5c3e4b61ebdb990c0d2ab95d2b3d5b7fca277a32
+Latest commit in repo: 4ba59688b648246a4d83371fd52e3bcaa2b8ce4d
 Last change in file:
-  commit 5c3e4b61ebdb990c0d2ab95d2b3d5b7fca277a32
+  commit 4ba59688b648246a4d83371fd52e3bcaa2b8ce4d
   Author: pad <pad@r2c.dev>
-  Date:   Tue Feb 8 16:46:07 2022 +0100
+  Date:   Wed Jun 22 10:00:47 2022 +0200
   
-      Update to latest tree-sitter-solidity and add ... in contract
+      update to more recent tree-sitter-solidity
       
-      This will help https://github.com/returntocorp/semgrep/issues/4587
+      This will help https://github.com/returntocorp/semgrep/issues/4957
       
       test plan:
       ./test-lang solidity
