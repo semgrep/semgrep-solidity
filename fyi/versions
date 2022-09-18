@@ -20,16 +20,17 @@ Last change in file:
 ---
 File: semgrep-grammars/src/semgrep-solidity/grammar.js
 Git repo name: ocaml-tree-sitter-semgrep
-Latest commit in repo: 4ba59688b648246a4d83371fd52e3bcaa2b8ce4d
+Latest commit in repo: 515d4582a62558a62922c9c6d7615643dde2a147
 Last change in file:
-  commit 4ba59688b648246a4d83371fd52e3bcaa2b8ce4d
+  commit 515d4582a62558a62922c9c6d7615643dde2a147
   Author: pad <pad@r2c.dev>
-  Date:   Wed Jun 22 10:00:47 2022 +0200
+  Date:   Sun Sep 18 18:20:38 2022 +0200
   
-      update to more recent tree-sitter-solidity
+      Solidity: support constructor and modifier patterns
       
-      This will help https://github.com/returntocorp/semgrep/issues/4957
+      This will help https://github.com/returntocorp/semgrep/issues/6053
       
       test plan:
+      cd lang
       ./test-lang solidity
 ---

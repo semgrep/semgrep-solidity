@@ -2219,6 +2219,8 @@ let children_regexps : (string * Run.exp option) list = [
         Token (Name "statement");
       );
       Token (Name "expression");
+      Token (Name "constructor_definition");
+      Token (Name "modifier_definition");
     |];
   );
 ]
@@ -7342,6 +7344,14 @@ let trans_source_file ((kind, body) : mt) : CST.source_file =
       | Alt (2, v) ->
           `Exp (
             trans_expression (Run.matcher_token v)
+          )
+      | Alt (3, v) ->
+          `Cons_defi (
+            trans_constructor_definition (Run.matcher_token v)
+          )
+      | Alt (4, v) ->
+          `Modi_defi (
+            trans_modifier_definition (Run.matcher_token v)
           )
       | _ -> assert false
       )

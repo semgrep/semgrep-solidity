@@ -1313,6 +1313,8 @@ type source_file = [
     `Rep_source_unit of source_unit list (* zero or more *)
   | `Rep1_stmt of statement list (* one or more *)
   | `Exp of expression
+  | `Cons_defi of constructor_definition
+  | `Modi_defi of modifier_definition
 ]
 [@@deriving sexp_of]
 

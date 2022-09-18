@@ -2200,4 +2200,6 @@ let map_source_file (env : env) (x : CST.source_file) =
   | `Rep_source_unit v1 -> List.map (map_source_unit env) v1
   | `Rep1_stmt xs -> List.map (map_statement env) xs
   | `Exp x -> map_expression env x
+  | `Cons_defi x -> map_constructor_definition env x
+  | `Modi_defi x -> map_modifier_definition env x
   )
