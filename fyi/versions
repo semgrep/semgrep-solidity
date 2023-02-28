@@ -24,11 +24,17 @@ Last change in file:
 ---
 File: semgrep-grammars/src/semgrep-solidity/grammar.js
 Git repo name: ocaml-tree-sitter-semgrep
-Latest commit in repo: 6a5f11ac9e74386db468efb6c0535a1da5023bc7
+Latest commit in repo: 62f8cc50eac189095ee59e4ba321c6664b327330
 Last change in file:
-  commit 0bd9b98a7ba18eec2fb560b1fd3f6292f83415a7
-  Author: Raz0r <me@raz0r.name>
-  Date:   Wed Jan 18 16:44:39 2023 +0300
+  commit 62f8cc50eac189095ee59e4ba321c6664b327330
+  Author: pad <pad@r2c.dev>
+  Date:   Tue Feb 28 13:59:57 2023 +0100
   
-      Solidity: fix ellipsis in contract inheritance
+      Solidity: support enum and event patterns
+      
+      This will help https://github.com/returntocorp/semgrep/issues/7230
+      
+      test plan:
+      test file included
+      ./test-lang solidity
 ---
