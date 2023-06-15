@@ -864,22 +864,6 @@ let map_decimal_number (env : env) (x : CST.decimal_number) =
     )
   )
 
-let map_pragma_version_constraint (env : env) ((v1, v2) : CST.pragma_version_constraint) =
-  let v1 =
-    (match v1 with
-    | Some x -> R.Option (Some (
-        map_solidity_version_comparison_operator env x
-      ))
-    | None -> R.Option None)
-  in
-  let v2 =
-    (* pattern "\"?\\.? ?(\\d|\\*\
-  )+(\\. ?(\\d|\\*\
-  )+ ?(\\.(\\d|\\*\
-  )+)?)?\"?" *) token env v2
-  in
-  R.Tuple [v1; v2]
-
 let map_import_declaration (env : env) ((v1, v2) : CST.import_declaration) =
   let v1 =
     (* pattern [a-zA-Z$_][a-zA-Z0-9$_]* *) token env v1
@@ -941,6 +925,39 @@ let map_enum_member (env : env) (x : CST.enum_member) =
     )
   | `Ellips tok -> R.Case ("Ellips",
       (* "..." *) token env tok
+    )
+  )
+
+let map_pragma_version_constraint (env : env) (x : CST.pragma_version_constraint) =
+  (match x with
+  | `Opt_soli_vers_comp_op_soli_vers (v1, v2) -> R.Case ("Opt_soli_vers_comp_op_soli_vers",
+      let v1 =
+        (match v1 with
+        | Some x -> R.Option (Some (
+            map_solidity_version_comparison_operator env x
+          ))
+        | None -> R.Option None)
+      in
+      let v2 =
+        (* pattern "\"?\\.? ?(\\d|\\*\
+  )+(\\. ?(\\d|\\*\
+  )+ ?(\\.(\\d|\\*\
+  )+)?)?\"?" *) token env v2
+      in
+      R.Tuple [v1; v2]
+    )
+  | `Opt_soli_vers_comp_op_id (v1, v2) -> R.Case ("Opt_soli_vers_comp_op_id",
+      let v1 =
+        (match v1 with
+        | Some x -> R.Option (Some (
+            map_solidity_version_comparison_operator env x
+          ))
+        | None -> R.Option None)
+      in
+      let v2 =
+        (* pattern [a-zA-Z$_][a-zA-Z0-9$_]* *) token env v2
+      in
+      R.Tuple [v1; v2]
     )
   )
 
@@ -1050,30 +1067,6 @@ let map_hex_string_literal (env : env) (xs : CST.hex_string_literal) =
     R.Tuple [v1; v2]
   ) xs)
 
-let map_solidity_pragma_token (env : env) ((v1, v2) : CST.solidity_pragma_token) =
-  let v1 = (* "solidity" *) token env v1 in
-  let v2 =
-    R.List (List.map (fun (v1, v2) ->
-      let v1 = map_pragma_version_constraint env v1 in
-      let v2 =
-        (match v2 with
-        | Some x -> R.Option (Some (
-            (match x with
-            | `BARBAR tok -> R.Case ("BARBAR",
-                (* "||" *) token env tok
-              )
-            | `DASH tok -> R.Case ("DASH",
-                (* "-" *) token env tok
-              )
-            )
-          ))
-        | None -> R.Option None)
-      in
-      R.Tuple [v1; v2]
-    ) v2)
-  in
-  R.Tuple [v1; v2]
-
 let map_enum_declaration (env : env) ((v1, v2, v3, v4, v5) : CST.enum_declaration) =
   let v1 = (* "enum" *) token env v1 in
   let v2 =
@@ -1104,6 +1097,30 @@ let map_enum_declaration (env : env) ((v1, v2, v3, v4, v5) : CST.enum_declaratio
   in
   let v5 = (* "}" *) token env v5 in
   R.Tuple [v1; v2; v3; v4; v5]
+
+let map_solidity_pragma_token (env : env) ((v1, v2) : CST.solidity_pragma_token) =
+  let v1 = (* "solidity" *) token env v1 in
+  let v2 =
+    R.List (List.map (fun (v1, v2) ->
+      let v1 = map_pragma_version_constraint env v1 in
+      let v2 =
+        (match v2 with
+        | Some x -> R.Option (Some (
+            (match x with
+            | `BARBAR tok -> R.Case ("BARBAR",
+                (* "||" *) token env tok
+              )
+            | `DASH tok -> R.Case ("DASH",
+                (* "-" *) token env tok
+              )
+            )
+          ))
+        | None -> R.Option None)
+      in
+      R.Tuple [v1; v2]
+    ) v2)
+  in
+  R.Tuple [v1; v2]
 
 let map_user_defined_type (env : env) (x : CST.user_defined_type) =
   map_identifier_path env x

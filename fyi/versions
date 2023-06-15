@@ -24,17 +24,11 @@ Last change in file:
 ---
 File: semgrep-grammars/src/semgrep-solidity/grammar.js
 Git repo name: ocaml-tree-sitter-semgrep
-Latest commit in repo: 62f8cc50eac189095ee59e4ba321c6664b327330
+Latest commit in repo: 2a9feeb8675bc88eea57cccc7a296b4de32a6079
 Last change in file:
-  commit 62f8cc50eac189095ee59e4ba321c6664b327330
-  Author: pad <pad@r2c.dev>
-  Date:   Tue Feb 28 13:59:57 2023 +0100
+  commit a4715716b94c0f01a3b8cf016a32646a8e9c173c
+  Author: Alexey Posikera <posikera@bk.ru>
+  Date:   Thu Jun 15 11:03:12 2023 +0300
   
-      Solidity: support enum and event patterns
-      
-      This will help https://github.com/returntocorp/semgrep/issues/7230
-      
-      test plan:
-      test file included
-      ./test-lang solidity
+      Solidity: add metavariables for versions
 ---

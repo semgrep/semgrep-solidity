@@ -360,11 +360,6 @@ type decimal_number = [
   | `Pat_ac20a0c of pat_ac20a0c
 ]
 
-type pragma_version_constraint = (
-    solidity_version_comparison_operator option
-  * solidity_version (*tok*)
-)
-
 type import_declaration = (
     identifier (*tok*)
   * (Token.t (* "as" *) * identifier (*tok*)) option
@@ -384,6 +379,17 @@ type yul_path = (
 type enum_member = [
     `Id of identifier (*tok*)
   | `Ellips of Token.t (* "..." *)
+]
+
+type pragma_version_constraint = [
+    `Opt_soli_vers_comp_op_soli_vers of (
+        solidity_version_comparison_operator option
+      * solidity_version (*tok*)
+    )
+  | `Opt_soli_vers_comp_op_id of (
+        solidity_version_comparison_operator option
+      * identifier (*tok*)
+    )
 ]
 
 type any_pragma_token = (identifier (*tok*) * pragma_value)
@@ -428,15 +434,6 @@ type hex_string_literal =
   )
     list (* one or more *)
 
-type solidity_pragma_token = (
-    Token.t (* "solidity" *)
-  * (
-        pragma_version_constraint
-      * [ `BARBAR of Token.t (* "||" *) | `DASH of Token.t (* "-" *) ] option
-    )
-      list (* zero or more *)
-)
-
 type enum_declaration = (
     Token.t (* "enum" *)
   * identifier (*tok*)
@@ -448,6 +445,15 @@ type enum_declaration = (
     )
       option
   * Token.t (* "}" *)
+)
+
+type solidity_pragma_token = (
+    Token.t (* "solidity" *)
+  * (
+        pragma_version_constraint
+      * [ `BARBAR of Token.t (* "||" *) | `DASH of Token.t (* "-" *) ] option
+    )
+      list (* zero or more *)
 )
 
 type user_defined_type = identifier_path

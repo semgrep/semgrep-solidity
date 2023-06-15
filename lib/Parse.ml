@@ -324,15 +324,6 @@ let children_regexps : (string * Run.exp option) list = [
     |];
   );
   "double_quoted_unicode_char", None;
-  "pragma_version_constraint",
-  Some (
-    Seq [
-      Opt (
-        Token (Name "solidity_version_comparison_operator");
-      );
-      Token (Name "solidity_version");
-    ];
-  );
   "decimal_number",
   Some (
     Alt [|
@@ -412,6 +403,23 @@ let children_regexps : (string * Run.exp option) list = [
     Alt [|
       Token (Name "true");
       Token (Name "false");
+    |];
+  );
+  "pragma_version_constraint",
+  Some (
+    Alt [|
+      Seq [
+        Opt (
+          Token (Name "solidity_version_comparison_operator");
+        );
+        Token (Name "solidity_version");
+      ];
+      Seq [
+        Opt (
+          Token (Name "solidity_version_comparison_operator");
+        );
+        Token (Name "identifier");
+      ];
     |];
   );
   "import_declaration",
@@ -524,23 +532,6 @@ let children_regexps : (string * Run.exp option) list = [
       ];
     );
   );
-  "solidity_pragma_token",
-  Some (
-    Seq [
-      Token (Name "solidity");
-      Repeat (
-        Seq [
-          Token (Name "pragma_version_constraint");
-          Opt (
-            Alt [|
-              Token (Literal "||");
-              Token (Literal "-");
-            |];
-          );
-        ];
-      );
-    ];
-  );
   "number_literal",
   Some (
     Seq [
@@ -558,6 +549,23 @@ let children_regexps : (string * Run.exp option) list = [
     Seq [
       Token (Name "identifier");
       Token (Name "pragma_value");
+    ];
+  );
+  "solidity_pragma_token",
+  Some (
+    Seq [
+      Token (Name "solidity");
+      Repeat (
+        Seq [
+          Token (Name "pragma_version_constraint");
+          Opt (
+            Alt [|
+              Token (Literal "||");
+              Token (Literal "-");
+            |];
+          );
+        ];
+      );
     ];
   );
   "multiple_import",
@@ -3298,24 +3306,6 @@ let trans_double_quoted_unicode_char ((kind, body) : mt) : CST.double_quoted_uni
   | Leaf v -> v
   | Children _ -> assert false
 
-let trans_pragma_version_constraint ((kind, body) : mt) : CST.pragma_version_constraint =
-  match body with
-  | Children v ->
-      (match v with
-      | Seq [v0; v1] ->
-          (
-            Run.opt
-              (fun v ->
-                trans_solidity_version_comparison_operator (Run.matcher_token v)
-              )
-              v0
-            ,
-            trans_solidity_version (Run.matcher_token v1)
-          )
-      | _ -> assert false
-      )
-  | Leaf _ -> assert false
-
 let trans_decimal_number ((kind, body) : mt) : CST.decimal_number =
   match body with
   | Children v ->
@@ -3492,6 +3482,46 @@ let trans_boolean_literal ((kind, body) : mt) : CST.boolean_literal =
       | Alt (1, v) ->
           `False (
             trans_false_ (Run.matcher_token v)
+          )
+      | _ -> assert false
+      )
+  | Leaf _ -> assert false
+
+let trans_pragma_version_constraint ((kind, body) : mt) : CST.pragma_version_constraint =
+  match body with
+  | Children v ->
+      (match v with
+      | Alt (0, v) ->
+          `Opt_soli_vers_comp_op_soli_vers (
+            (match v with
+            | Seq [v0; v1] ->
+                (
+                  Run.opt
+                    (fun v ->
+                      trans_solidity_version_comparison_operator (Run.matcher_token v)
+                    )
+                    v0
+                  ,
+                  trans_solidity_version (Run.matcher_token v1)
+                )
+            | _ -> assert false
+            )
+          )
+      | Alt (1, v) ->
+          `Opt_soli_vers_comp_op_id (
+            (match v with
+            | Seq [v0; v1] ->
+                (
+                  Run.opt
+                    (fun v ->
+                      trans_solidity_version_comparison_operator (Run.matcher_token v)
+                    )
+                    v0
+                  ,
+                  trans_identifier (Run.matcher_token v1)
+                )
+            | _ -> assert false
+            )
           )
       | _ -> assert false
       )
@@ -3746,44 +3776,6 @@ let trans_unicode_string_literal ((kind, body) : mt) : CST.unicode_string_litera
         v
   | Leaf _ -> assert false
 
-let trans_solidity_pragma_token ((kind, body) : mt) : CST.solidity_pragma_token =
-  match body with
-  | Children v ->
-      (match v with
-      | Seq [v0; v1] ->
-          (
-            trans_solidity (Run.matcher_token v0),
-            Run.repeat
-              (fun v ->
-                (match v with
-                | Seq [v0; v1] ->
-                    (
-                      trans_pragma_version_constraint (Run.matcher_token v0),
-                      Run.opt
-                        (fun v ->
-                          (match v with
-                          | Alt (0, v) ->
-                              `BARBAR (
-                                Run.trans_token (Run.matcher_token v)
-                              )
-                          | Alt (1, v) ->
-                              `DASH (
-                                Run.trans_token (Run.matcher_token v)
-                              )
-                          | _ -> assert false
-                          )
-                        )
-                        v1
-                    )
-                | _ -> assert false
-                )
-              )
-              v1
-          )
-      | _ -> assert false
-      )
-  | Leaf _ -> assert false
-
 let trans_number_literal ((kind, body) : mt) : CST.number_literal =
   match body with
   | Children v ->
@@ -3818,6 +3810,44 @@ let trans_any_pragma_token ((kind, body) : mt) : CST.any_pragma_token =
           (
             trans_identifier (Run.matcher_token v0),
             trans_pragma_value (Run.matcher_token v1)
+          )
+      | _ -> assert false
+      )
+  | Leaf _ -> assert false
+
+let trans_solidity_pragma_token ((kind, body) : mt) : CST.solidity_pragma_token =
+  match body with
+  | Children v ->
+      (match v with
+      | Seq [v0; v1] ->
+          (
+            trans_solidity (Run.matcher_token v0),
+            Run.repeat
+              (fun v ->
+                (match v with
+                | Seq [v0; v1] ->
+                    (
+                      trans_pragma_version_constraint (Run.matcher_token v0),
+                      Run.opt
+                        (fun v ->
+                          (match v with
+                          | Alt (0, v) ->
+                              `BARBAR (
+                                Run.trans_token (Run.matcher_token v)
+                              )
+                          | Alt (1, v) ->
+                              `DASH (
+                                Run.trans_token (Run.matcher_token v)
+                              )
+                          | _ -> assert false
+                          )
+                        )
+                        v1
+                    )
+                | _ -> assert false
+                )
+              )
+              v1
           )
       | _ -> assert false
       )
