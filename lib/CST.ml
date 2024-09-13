@@ -1541,6 +1541,6 @@ type interface_declaration (* inlined *) = (
   * contract_body
 )
 
-type extra = Comment of Loc.t * comment
+type extra = [ `Comment of Loc.t * comment ]
 
 type extras = extra list
