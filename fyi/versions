@@ -1,36 +1,34 @@
 File: semgrep-grammars/src/tree-sitter-solidity/LICENSE
 Git repo name: tree-sitter-solidity
-Latest commit in repo: 4e938a46c7030dd001bc99e1ac0f0c750ac98254
+Latest commit in repo: 4e79c49eb4cb68f417411f97a0b9cbd4d5862752
 Last change in file:
-  commit 890735f6ba1246c33cb833af40746ee0c036e97c
-  Author: Joran Honig <joran.honig@gmail.com>
-  Date:   Sun Aug 30 22:28:00 2020 +0200
+  commit 4e79c49eb4cb68f417411f97a0b9cbd4d5862752
+  Author: JoranHonig <JoranHonig@users.noreply.github.com>
+  Date:   Wed May 11 17:22:54 2022 +0200
   
-      add license
+      Merge pull request #26 from JoranHonig/feat/updates
+      
+      A pull request to get parsing rate to 99.9%
 ---
 File: semgrep-grammars/src/tree-sitter-solidity/grammar.js
 Git repo name: tree-sitter-solidity
-Latest commit in repo: 4e938a46c7030dd001bc99e1ac0f0c750ac98254
+Latest commit in repo: 4e79c49eb4cb68f417411f97a0b9cbd4d5862752
 Last change in file:
-  commit d96d47507aa6ddbc7c4ad5100e4705df73fe15b1
+  commit 4e79c49eb4cb68f417411f97a0b9cbd4d5862752
   Author: JoranHonig <JoranHonig@users.noreply.github.com>
-  Date:   Mon Aug 4 12:58:13 2025 +0200
+  Date:   Wed May 11 17:22:54 2022 +0200
   
-      feat(grammar): add support for hex string literals in Yul assembly
+      Merge pull request #26 from JoranHonig/feat/updates
       
-        - Add yul_hex_string_literal rule to support hex"" and hex'' syntax in inline assembly
-        - Include the new literal type in _yul_literal choices
-        - Add test cases for hex string literals with underscores, empty strings, and single quotes
-      
-        Fixes #75
+      A pull request to get parsing rate to 99.9%
 ---
 File: semgrep-grammars/src/semgrep-solidity/grammar.js
 Git repo name: ocaml-tree-sitter-semgrep
-Latest commit in repo: 7836cd1f60bfaf81ac7586daf6c56f558d240b33
+Latest commit in repo: 091f5438fc0c15b80217f00e5b94ec0e55517383
 Last change in file:
-  commit 7836cd1f60bfaf81ac7586daf6c56f558d240b33
-  Author: 0xalpharush <0xalpharush@protonmail.com>
-  Date:   Wed Sep 17 10:09:22 2025 -0500
+  commit a4715716b94c0f01a3b8cf016a32646a8e9c173c
+  Author: Alexey Posikera <posikera@bk.ru>
+  Date:   Thu Jun 15 11:03:12 2023 +0300
   
-      support ellipsis in using directive, assembly, and error param
+      Solidity: add metavariables for versions
 ---
